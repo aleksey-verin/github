@@ -9,10 +9,12 @@ import {
   selectorSearchUsersSlice,
   setParamsPage
 } from '../../store/reducers/searchUsersSlice';
+import { selectorUserAuth } from '../../store/reducers/userAuthSlice';
 
 const Pagination: FC = () => {
   const dispatch = useAppDispatch();
   const { search } = useSelector(selectorSearchValue);
+  const { user } = useSelector(selectorUserAuth);
   const {
     totalCountUsers,
     params,
@@ -28,6 +30,7 @@ const Pagination: FC = () => {
     await dispatch(
       getResultUsers({
         searchValue: search,
+        oAuthToken: user?.oauthAccessToken,
         params: { ...params, page: page }
       })
     );

@@ -15,9 +15,11 @@ import {
   setSortingValue
 } from '../../store/reducers/searchSortingValueSlice';
 import { getSearchParamsFormSelect } from '../../utils/helpers';
+import { selectorUserAuth } from '../../store/reducers/userAuthSlice';
 
 const ListSearchResults: FC = () => {
   const dispatch = useAppDispatch();
+  const { user } = useSelector(selectorUserAuth);
   const { resultUserList, totalCountUsers, isError, params } =
     useSelector(selectorSearchUsersSlice);
   const { search } = useSelector(selectorSearchValue);
@@ -32,19 +34,20 @@ const ListSearchResults: FC = () => {
     dispatch(
       getResultUsers({
         searchValue: search,
+        oAuthToken: user?.oauthAccessToken,
         params: { per_page: params.per_page, page: 1, ...sortingParams }
       })
     );
   };
 
-  // useEffect(() => {
-  //   dispatch(getResultUsers({ searchValue: search, params }));
-  // }, [dispatch, params]);
-
   if (isError)
     return (
       <section className="user-repositories">
-        <div>Sorry, error..</div>
+        <div>
+          Sorry, server error. Most likely, you have exceeded the maximum limit of requests per
+          minute. Log in to the application to avoid this error in the future. Or try searching
+          again a little later
+        </div>
       </section>
     );
 

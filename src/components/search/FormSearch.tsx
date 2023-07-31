@@ -17,6 +17,8 @@ import {
   selectorSearchUsersSlice
 } from '../../store/reducers/searchUsersSlice';
 import { clearSortingValue } from '../../store/reducers/searchSortingValueSlice';
+import { UsersSearchParams } from '../../store/types/usersType';
+import { selectorUserAuth } from '../../store/reducers/userAuthSlice';
 
 const defaultValue = '';
 
@@ -24,18 +26,24 @@ const FormSearch: FC = () => {
   const dispatch = useAppDispatch();
 
   const { searchDebounce } = useSelector(selectorUserSettingsSlice);
+  const { user, isAuth } = useSelector(selectorUserAuth);
   const { search } = useSelector(selectorSearchValue);
-  const { params, isLoading } = useSelector(selectorSearchUsersSlice);
+  const { params, isLoading, isError } = useSelector(selectorSearchUsersSlice);
 
   const [searchInputValue, setSearchInputValue] = useState<string>(search);
   const debouncedValue = useDebounce<string>(searchInputValue, searchDebounce);
 
-  const requestRestApi = async (value: string, per_page: number) => {
+  const requestRestApi = async (
+    value: string,
+    token: string | undefined,
+    params: UsersSearchParams
+  ) => {
     dispatch(resetParamsPage());
     const searchData = dispatch(
       getResultUsers({
         searchValue: value,
-        params: { page: 1, per_page: per_page }
+        oAuthToken: token,
+        params: { ...params, page: 1 }
       })
     );
     showNoteSearchRequest(searchData, value);
@@ -47,12 +55,8 @@ const FormSearch: FC = () => {
     const value = debouncedValue.trim();
     if (value === search) return;
 
-    requestRestApi(value, params.per_page);
+    requestRestApi(value, user?.oauthAccessToken, params);
   }, [debouncedValue]);
-
-  // useEffect(() => {
-  //   dispatch(getResultUsers({ searchValue: search, params }));
-  // }, [dispatch, params]);
 
   const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const userTypedValue = e.target.value;
@@ -66,10 +70,10 @@ const FormSearch: FC = () => {
   const handleSubmitSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const value = searchInputValue.trim();
-    if (value === search) {
+    if (value === search && !isError) {
       return showNoteSameWordForSearch();
     }
-    requestRestApi(value, params.per_page);
+    requestRestApi(value, user?.oauthAccessToken, params);
   };
 
   const handleReset = () => {

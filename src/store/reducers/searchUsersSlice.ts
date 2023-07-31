@@ -45,16 +45,23 @@ const initialState = storageGetItem(storage.searchUsersResults) ?? {
 
 export const getResultUsers = createAsyncThunk<
   ResultUserList,
-  { searchValue: string; params?: UsersSearchParams },
+  { searchValue: string; oAuthToken: string | undefined; params?: UsersSearchParams },
   {
     dispatch: AppDispatch;
     state: IRootState;
   }
->('getResultUsers', async ({ searchValue, params = initialState.params }, thunkAPI) => {
+>('getResultUsers', async ({ searchValue, oAuthToken, params = initialState.params }, thunkAPI) => {
   try {
     const url = getSearchUsersUrl(searchValue, params);
+    const headersList = {
+      Accept: '*/*',
+      Authorization: `Bearer ${oAuthToken}`
+    };
     if (!url) return;
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: oAuthToken ? headersList : {}
+    });
     const data = await response.json();
     if (response.ok) {
       return data;
