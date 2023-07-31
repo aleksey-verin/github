@@ -25,7 +25,7 @@ const FormLanguage: FC = () => {
     setSelectLanguageDisabled(false);
   };
 
-  const handleSaveRequestType = (e: React.ChangeEvent<HTMLFormElement>) => {
+  const handleSaveLanguage = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSelectLanguageDisabled(true);
     if (language === selectLanguageValue) return;
@@ -41,8 +41,8 @@ const FormLanguage: FC = () => {
   }, [selectLanguageDisabled]);
 
   return (
-    <form onSubmit={handleSaveRequestType}>
-      <label htmlFor="request">{t('settingsLanguage')}</label>
+    <form onSubmit={handleSaveLanguage}>
+      <label htmlFor="language">{t('settingsLanguage')}</label>
       <div>
         <select
           id="language"
