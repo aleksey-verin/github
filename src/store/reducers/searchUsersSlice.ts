@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AppDispatch, IRootState } from '../store';
-import { getSearchUsersUrl } from '../../utils/api-helpers';
+import { _searchURL, getSearchUsersUrl } from '../../utils/api-helpers';
 import { getNumberOfPages, getSearchParamsFormSelect } from '../../utils/helpers';
 import { storage, storageGetItem } from '../../utils/storage';
 import { ResultUser, ResultUserList, UsersSearchParams } from '../types/usersType';
@@ -52,7 +52,7 @@ export const getResultUsers = createAsyncThunk<
   }
 >('getResultUsers', async ({ searchValue, oAuthToken, params = initialState.params }, thunkAPI) => {
   try {
-    const url = getSearchUsersUrl(searchValue, params);
+    const url = getSearchUsersUrl(_searchURL, searchValue, params);
     const headersList = {
       Accept: '*/*',
       Authorization: `Bearer ${oAuthToken}`

@@ -17,23 +17,26 @@ export function getNumberOfPages(total: number, per_page: number): number {
   return Math.ceil(total / per_page);
 }
 
-export function getPaginationArray(numberOfPages: number, currentPage: number): Array<number> {
-  const maxAmount = 9;
-  const halfOfMaxAmount = Math.floor(maxAmount / 2);
+export function getPaginationArray(
+  numberOfPages: number,
+  currentPage: number,
+  maxViewedPages: number = 9
+): Array<number> {
+  const halfOfMaxAmount = Math.floor(maxViewedPages / 2);
   const listOfNumbers = [];
 
-  if (numberOfPages <= maxAmount) {
+  if (numberOfPages <= maxViewedPages) {
     for (let i = 1; i <= numberOfPages; i++) {
       listOfNumbers.push(i);
     }
   }
-  if (numberOfPages > maxAmount) {
+  if (numberOfPages > maxViewedPages) {
     if (currentPage <= halfOfMaxAmount) {
-      for (let i = 1; i <= maxAmount; i++) {
+      for (let i = 1; i <= maxViewedPages; i++) {
         listOfNumbers.push(i);
       }
     } else if (currentPage > numberOfPages - halfOfMaxAmount) {
-      for (let i = numberOfPages - maxAmount + 1; i <= numberOfPages; i++) {
+      for (let i = numberOfPages - maxViewedPages + 1; i <= numberOfPages; i++) {
         listOfNumbers.push(i);
       }
     } else {
