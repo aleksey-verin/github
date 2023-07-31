@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { selectorUserAuth, userAuth, userSign } from '../store/reducers/userAuthSlice';
 import { showNoteLogin } from '../utils/notifications';
 import { useTranslation } from 'react-i18next';
+import ImgGithub from '../components/ui/images/ImgGithub';
 
 const LoginPage: FC = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +24,10 @@ const LoginPage: FC = () => {
       ) : (
         <>
           <div>{t('loginText')}</div>
-          <button onClick={handleGithubLogin}>{t('login')}</button>
+          <button className="login-btn" onClick={handleGithubLogin}>
+            <ImgGithub />
+            {t('login')}
+          </button>
         </>
       )}
     </MainContent>

@@ -909,3 +909,22 @@ main {
     margin-block-end: 0;
   }
 }
+
+// =============== LOGIN PAGE =========
+
+.login-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  & svg path {
+    fill: rgb(33, 53, 71);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .login-btn {
+    & svg path {
+      fill: #fff;
+    }
+  }
+}
