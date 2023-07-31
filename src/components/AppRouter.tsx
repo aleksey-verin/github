@@ -21,7 +21,7 @@ const AppRouter: FC = () => {
       <Routes>
         <Route element={<MainPage />} path={ROUTES.searchPage} />
         <Route element={<SingleUserPage />} path={ROUTES.searchSinglePage} />
-        <Route element={<SingleRepoPage />} path={ROUTES.singleRepo} />
+        {isAuth && <Route element={<SingleRepoPage />} path={ROUTES.singleRepo} />}
         <Route element={<AboutPage />} path={ROUTES.aboutPage} />
         <Route element={<SettingsPage />} path={ROUTES.settingsPage} />
         <Route path="*" element={<Navigate replace to={ROUTES.searchPage} />} />
