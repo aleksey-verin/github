@@ -7,9 +7,10 @@ import { ROUTES } from '../routes/routes';
 import AboutPage from '../pages/AboutPage';
 import SettingsPage from '../pages/SettingsPage';
 import LoginPage from '../pages/LoginPage';
-import SingleRepoPage from '../pages/mainPage/SingleRepoPage';
+import SingleUserPage from '../pages/mainPage/SingleUserPage';
 import { useSelector } from 'react-redux';
 import { selectorUserAuth } from '../store/reducers/userAuthSlice';
+import SingleRepoPage from '../pages/mainPage/SingleRepoPage';
 
 const AppRouter: FC = () => {
   const { isAuth } = useSelector(selectorUserAuth);
@@ -19,7 +20,8 @@ const AppRouter: FC = () => {
       <Header />
       <Routes>
         <Route element={<MainPage />} path={ROUTES.searchPage} />
-        <Route element={<SingleRepoPage />} path={ROUTES.searchSinglePage} />
+        <Route element={<SingleUserPage />} path={ROUTES.searchSinglePage} />
+        <Route element={<SingleRepoPage />} path={ROUTES.singleRepo} />
         <Route element={<AboutPage />} path={ROUTES.aboutPage} />
         <Route element={<SettingsPage />} path={ROUTES.settingsPage} />
         <Route path="*" element={<Navigate replace to={ROUTES.searchPage} />} />

@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { RepositorySearchCommonItem, UserAuth } from '../../store/types/repoType';
 import RepoItem from './RepoItem';
+import { useTranslation } from 'react-i18next';
 
 interface ListUserRepoProps {
   user: UserAuth | null;
@@ -10,15 +11,13 @@ interface ListUserRepoProps {
 }
 
 const ListUserRepo: FC<ListUserRepoProps> = ({ user, userRepos, isLoading, isError }) => {
+  const { t } = useTranslation();
+
   return (
     <section className="user-repositories">
-      <div className="user-repositories__title">
-        {user
-          ? 'List of your repositories:'
-          : 'Please log in to the app if you want to see your own repositories'}
-      </div>
-      {isLoading && <div>Loading..</div>}
-      {isError && <div>Sorry, error..</div>}
+      <div className="user-repositories__title">{user ? t('repoNotEmpty') : t('repoEmpty')}</div>
+      {isLoading && <div>{t('loading')}</div>}
+      {isError && <div>{t('sorryError')}</div>}
       <div className="user-repositories__list">
         {user &&
           userRepos.map(

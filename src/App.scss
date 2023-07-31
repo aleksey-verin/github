@@ -165,7 +165,7 @@ main {
   }
 }
 
-@media (max-width: 610px) {
+@media (max-width: 770px) {
   header {
     & .header-user {
       & div {
@@ -175,7 +175,7 @@ main {
   }
 }
 
-@media (max-width: 490px) {
+@media (max-width: 590px) {
   header {
     & nav.header-nav__desktop {
       display: none;
@@ -342,6 +342,15 @@ main {
       justify-content: space-between;
       align-items: center;
       gap: 10px;
+    }
+  }
+}
+@media (max-width: 529px) {
+  .results {
+    &-title {
+      &__sorting {
+        flex-direction: column;
+      }
     }
   }
 }
@@ -528,6 +537,7 @@ main {
         -webkit-box-flex: 0;
         -ms-flex: 0 0 100px;
         flex: 0 0 100px;
+        overflow: hidden;
       }
     }
   }
@@ -579,14 +589,14 @@ main {
   }
   &__back {
     display: flex;
-    width: 90px;
+    width: 110px;
     align-items: center;
     justify-content: right;
     gap: 5px;
   }
   &__next {
     display: flex;
-    width: 90px;
+    width: 110px;
     align-items: center;
     justify-content: left;
     gap: 5px;

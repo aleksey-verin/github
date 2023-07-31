@@ -1,7 +1,10 @@
 import { FC } from 'react';
 import MainContent from '../components/ui/MainContent';
+import { useTranslation } from 'react-i18next';
 
 const AboutPage: FC = () => {
+  const { t } = useTranslation();
+
   return (
     <MainContent>
       <div className="about">
@@ -13,13 +16,14 @@ const AboutPage: FC = () => {
           account. Customize the settings according to your preferences and easily find the
           repositories you need on GitHub.
         </p> */}
-        <label>This app was built with:</label>
+        <label>{t('about')}</label>
         <ul>
           <li>Typescript</li>
           <li>React</li>
           <li>Redux Toolkit</li>
           <li>React Router Dom</li>
           <li>Firebase</li>
+          <li>i18n</li>
           <li>dayjs</li>
           <li>react hot toast</li>
           <li>SCSS</li>

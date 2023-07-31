@@ -8,13 +8,19 @@ import {
   selectorSearchUsersSlice,
   setParamsPerPage
 } from '../../store/reducers/searchUsersSlice';
+import { selectorUserAuth } from '../../store/reducers/userAuthSlice';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-hot-toast';
 
 const FormPerPage: FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
   const {
     params: { per_page }
   } = useSelector(selectorSearchUsersSlice);
   const { search } = useSelector(selectorSearchValue);
+  const { user } = useSelector(selectorUserAuth);
 
   const [perPageInputDisabled, setPerPageInputDisabled] = useState(true);
 
@@ -41,10 +47,12 @@ const FormPerPage: FC = () => {
       dispatch(
         getResultUsers({
           searchValue: search,
+          oAuthToken: user?.oauthAccessToken,
           params: { page: 1, per_page: perPageInputValue }
         })
       );
     }
+    toast.success(t('Successfully saved'));
   };
 
   useEffect(() => {
@@ -55,7 +63,7 @@ const FormPerPage: FC = () => {
 
   return (
     <form onSubmit={handleSavePerPage}>
-      <label htmlFor="per_page">Number of items on the search page (pcs.)</label>
+      <label htmlFor="per_page">{t('settingsPages')}</label>
       <div>
         <input
           id="per_page"
@@ -73,10 +81,10 @@ const FormPerPage: FC = () => {
         />
         {perPageInputDisabled ? (
           <button type="button" onClick={handleEditDebounce}>
-            Edit
+            {t('btnEdit')}
           </button>
         ) : (
-          <button type="submit">Save</button>
+          <button type="submit"> {t('btnSave')}</button>
         )}
       </div>
     </form>

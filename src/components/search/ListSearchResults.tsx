@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { selectorSearchValue } from '../../store/reducers/searchValueSlice';
 import {
@@ -16,9 +16,11 @@ import {
 } from '../../store/reducers/searchSortingValueSlice';
 import { getSearchParamsFormSelect } from '../../utils/helpers';
 import { selectorUserAuth } from '../../store/reducers/userAuthSlice';
+import { useTranslation } from 'react-i18next';
 
 const ListSearchResults: FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { user } = useSelector(selectorUserAuth);
   const { resultUserList, totalCountUsers, isError, params } =
     useSelector(selectorSearchUsersSlice);
@@ -43,11 +45,7 @@ const ListSearchResults: FC = () => {
   if (isError)
     return (
       <section className="user-repositories">
-        <div>
-          Sorry, server error. Most likely, you have exceeded the maximum limit of requests per
-          minute. Log in to the application to avoid this error in the future. Or try searching
-          again a little later
-        </div>
+        <div>{t('searchRequestError')}</div>
       </section>
     );
 
@@ -58,13 +56,13 @@ const ListSearchResults: FC = () => {
           {totalCountUsers !== null && (
             <>
               <span>{totalCountUsers}</span>
-              {` users were found by the query `}
+              {t('searchSummary')}
               <span>{`"${totalCountUsers !== null && search}"`}</span>
             </>
           )}
         </div>
         <div className="results-title__sorting">
-          <div>Sort by:</div>
+          <div>{t('searchSortBy')}</div>
           <select
             name="sorting"
             id="sorting"
@@ -72,7 +70,7 @@ const ListSearchResults: FC = () => {
             value={searchSortingValue}>
             {Object.values(searchUserSortingOptions).map((item) => (
               <option key={item.value} value={item.value}>
-                {item.name}
+                {t(item.name)}
               </option>
             ))}
           </select>

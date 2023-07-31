@@ -10,15 +10,17 @@ import { clearLocalStorageData, storage } from '../utils/storage';
 import { toast } from 'react-hot-toast';
 import { clearSearchValue } from '../store/reducers/searchValueSlice';
 import { clearSearchData } from '../store/reducers/searchUsersSlice';
+import { useTranslation } from 'react-i18next';
 
 const Header: FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { isAuth, user } = useSelector(selectorUserAuth);
   const [mobileMenuIsOpen, setMobileMenuIsOpen] = useState(false);
 
   const handleLogOut = async () => {
     await dispatch(userAuth(userSign.out));
-    toast(`Buy-buy, ${user?.displayName}`, {
+    toast(`${t('buy')}, ${user?.displayName}`, {
       duration: 3000,
       icon: '👋'
     });
@@ -37,22 +39,22 @@ const Header: FC = () => {
         <ImgBurger />
       </button>
       <div className="header-logo">
-        <Link to={ROUTES.searchPage}>LOGO</Link>
+        <Link to={ROUTES.searchPage}>{t('Logo')}</Link>
       </div>
       <nav className="header-nav__desktop">
-        <NavLink to={ROUTES.searchPage}>Search</NavLink>
-        <NavLink to={ROUTES.settingsPage}>Settings</NavLink>
-        <NavLink to={ROUTES.aboutPage}>About</NavLink>
+        <NavLink to={ROUTES.searchPage}>{t('Search')}</NavLink>
+        <NavLink to={ROUTES.settingsPage}>{t('Settings')}</NavLink>
+        <NavLink to={ROUTES.aboutPage}>{t('About')}</NavLink>
       </nav>
       <div className="header-user">
         {isAuth ? (
           <>
             <div>{user?.displayName}</div>
-            <button onClick={handleLogOut}>Log Out</button>
+            <button onClick={handleLogOut}>{t('LogOut')}</button>
           </>
         ) : (
           <Link to={ROUTES.loginPage}>
-            <button>Log In</button>
+            <button>{t('LogIn')}</button>
           </Link>
         )}
       </div>

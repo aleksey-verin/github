@@ -2,14 +2,17 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IRootState } from '../store';
 import { storage, storageGetItem } from '../../utils/storage';
 
+export type langType = 'en' | 'ru';
 interface initialStateTypes {
   isThemeLight: boolean;
   searchDebounce: number;
+  language: langType;
 }
 
 const initialState = storageGetItem(storage.settings) ?? {
   isThemeLight: false,
-  searchDebounce: 1000
+  searchDebounce: 1000,
+  language: 'en'
 };
 
 export const userSettingsSlice = createSlice({
@@ -24,10 +27,14 @@ export const userSettingsSlice = createSlice({
     },
     setSearchDebounce: (state, { payload }: PayloadAction<number>) => {
       state.searchDebounce = payload;
+    },
+    setLanguage: (state, { payload }: PayloadAction<langType>) => {
+      state.language = payload;
     }
   }
 });
 
 export const selectorUserSettingsSlice = (state: IRootState) => state.userSettingsSlice;
-export const { setThemeLight, setThemeDark, setSearchDebounce } = userSettingsSlice.actions;
+export const { setThemeLight, setThemeDark, setSearchDebounce, setLanguage } =
+  userSettingsSlice.actions;
 export default userSettingsSlice.reducer;

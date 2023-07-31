@@ -1,83 +1,98 @@
-import { FC, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import MainContent from '../../components/ui/MainContent';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import {
-  clearSingleUserInfo,
-  getSingleUserInfo,
-  selectorSingleUsersSlice
-} from '../../store/reducers/singleUserSlice';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { selectorUserSlice } from '../../store/reducers/userReposSlice';
+import MainContent from '../../components/ui/MainContent';
 import dayjs from 'dayjs';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { getLanguageForRepo } from '../../utils/api-helpers';
+import { getViewedLanguages } from '../../utils/helpers';
+import { useTranslation } from 'react-i18next';
 
 const SingleRepoPage: FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
   const { id } = useParams();
+  const { userRepos, isLoading, isError, isSuccess } = useSelector(selectorUserSlice);
+
+  const currentRepo = useMemo(
+    () => userRepos.find((item) => item.id === Number(id)),
+    [id, userRepos]
+  );
+
+  const [viewedLanguage, setViewedLanguage] = useState('');
+  const [loadingLanguagesData, setLoadingLanguagesData] = useState(false);
+
+  const getLanguageRequest = async (languageUrl: string) => {
+    setLoadingLanguagesData(true);
+    const data = await getLanguageForRepo(languageUrl);
+    const lang = getViewedLanguages(data);
+    setLoadingLanguagesData(false);
+    setViewedLanguage(lang);
+  };
 
   useEffect(() => {
-    if (!id) return;
-    dispatch(getSingleUserInfo(id));
-    return () => {
-      dispatch(clearSingleUserInfo());
-    };
-  }, [dispatch, id]);
+    if (!currentRepo) return;
+    if (currentRepo.languageMain === 'There is no information') {
+      setViewedLanguage(currentRepo.languageMain);
+    } else {
+      if (typeof currentRepo.languages === 'string') {
+        getLanguageRequest(currentRepo.languages);
+      }
+    }
+  }, [currentRepo, dispatch]);
 
-  const { singleUserInfo, isLoading, isError, isSuccess } = useSelector(selectorSingleUsersSlice);
-
-  const createdAt = dayjs(singleUserInfo?.created_at).format('DD.MM.YYYY'); // '25/01/2019'
-  const updatedAt = dayjs(singleUserInfo?.updated_at).format('DD.MM.YYYY HH:mm'); // '25/01/2019'
+  const viewedDate = dayjs(currentRepo?.pushedAt).format('DD.MM.YYYY HH:mm'); // '25/01/2019'
 
   return (
     <MainContent>
-      {isLoading && <div>Loading..</div>}
-      {isError && <div>Sorry, there is Error</div>}
-      {(isSuccess || singleUserInfo) && (
+      {isLoading && <div>{t('loading')}</div>}
+      {isError && <div>{t('sorryError')}</div>}
+      {(isSuccess || currentRepo) && (
         <>
           <div className="single-title">
-            Details info about user with login <span>{singleUserInfo?.login}</span>
+            {t('repoTitle')}
+            <span>{currentRepo?.name}</span>
           </div>
           <div className="single-repo">
             <div className="single-repo__item">
-              <div>Author photo:</div>
+              <div> {t('repoPhoto')}</div>
               <div className="single-repo__item-photo">
-                <img src={singleUserInfo?.avatar_url} alt="avatar" />
+                <img src={currentRepo?.owner.avatar_url} alt="" />
               </div>
             </div>
             <div className="single-repo__item">
-              <div>Nickname:</div>
-              <div>{singleUserInfo?.login}</div>
+              <div> {t('repoName')}</div>
+              <div>{currentRepo?.name}</div>
             </div>
             <div className="single-repo__item">
-              <div>Name:</div>
-              <div>{singleUserInfo?.name ? singleUserInfo?.name : 'There is no public name'}</div>
+              <div>{t('repoStars')}</div>
+              <div>{currentRepo?.stargazerCount}</div>
             </div>
             <div className="single-repo__item">
-              <div>Public Repos:</div>
-              <div>{singleUserInfo?.public_repos}</div>
+              <div> {t('repoLastCommit')}</div>
+              <div>{viewedDate}</div>
             </div>
             <div className="single-repo__item">
-              <div>Public Gists:</div>
-              <div>{singleUserInfo?.public_gists}</div>
+              <div> {t('repoAuthor')}</div>
+              <div>{currentRepo?.owner.login}</div>
             </div>
             <div className="single-repo__item">
-              <div>Created:</div>
-              <div>{createdAt}</div>
-            </div>
-            <div className="single-repo__item">
-              <div>Last update:</div>
-              <div>{updatedAt}</div>
-            </div>
-            <div className="single-repo__item">
-              <div>Link:</div>
+              <div> {t('repoLink')}</div>
               <div>
-                <a href={singleUserInfo?.html_url} target="_blank">
-                  {singleUserInfo?.html_url}
+                <a href={currentRepo?.owner.html_url} target="_blank">
+                  {currentRepo?.owner.html_url}
                 </a>
               </div>
             </div>
             <div className="single-repo__item">
-              <div>Location:</div>
-              <div>{singleUserInfo?.location ? singleUserInfo?.location : 'There is no info'}</div>
+              <div> {t('repoLang')}</div>
+              <div>{loadingLanguagesData ? 'Loading languages..' : viewedLanguage}</div>
+            </div>
+            <div className="single-repo__item">
+              <div> {t('repoDescription')}</div>
+              <div>{currentRepo?.description ? currentRepo?.description : t('repoNoDesc')}</div>
             </div>
           </div>
         </>

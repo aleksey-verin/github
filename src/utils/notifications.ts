@@ -1,4 +1,5 @@
 import { toast } from 'react-hot-toast';
+import i18n from './i18n/i18n';
 
 export const showNoteSearchRequest = (
   promise: Promise<unknown>,
@@ -9,14 +10,14 @@ export const showNoteSearchRequest = (
   toast.promise(
     promise,
     {
-      loading: 'Searching..',
+      loading: i18n.t('searching'),
       success: () => {
         // resolveFunc;
-        return `Search "${value}" completed!`;
+        return `${i18n.t('search')} "${value}" ${i18n.t('completed')}!`;
       },
       error: () => {
         // rejectFunc;
-        return 'Search error. The limit of requests to the server per minute has been exceeded. Try again later';
+        return i18n.t('searchError');
       }
     },
     {
@@ -31,17 +32,8 @@ export const showNoteSearchRequest = (
   );
 };
 
-export const showNoteLoginForGraphRequest = () => {
-  toast(
-    "Please log in to the app or change the request type to 'REST API' 😔\n\nWithout authorization, you cannot use the search if you have selected the 'GraphQl' query type in the settings.",
-    {
-      duration: 3000
-    }
-  );
-};
-
 export const showNoteSameWordForSearch = () => {
-  toast('The same request. Enter another word', {
+  toast(i18n.t('sameRequest'), {
     duration: 1000
   });
 };
@@ -50,9 +42,9 @@ export const showNoteLogin = (promise: Promise<unknown>) => {
   toast.promise(
     promise,
     {
-      loading: 'Please wait..',
-      success: 'You have successfully logged in to the app',
-      error: 'Something went wrong with authorization'
+      loading: i18n.t('Please wait..'),
+      success: i18n.t('successfullyLogged'),
+      error: i18n.t('loginError')
     },
     {
       success: {
@@ -71,9 +63,9 @@ export const showNoteSaveParams = (promise: Promise<unknown>) => {
   toast.promise(
     promise,
     {
-      loading: 'Please wait..',
-      success: 'Successfully saved!',
-      error: 'Something went wrong request'
+      loading: i18n.t('Please wait..'),
+      success: i18n.t('Successfully saved'),
+      error: i18n.t('saveParamsError')
     },
     {
       success: {

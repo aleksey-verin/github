@@ -113,17 +113,17 @@ export function transformUserReposData(response: RepositoryItem[]): RepositorySe
 //   query: string;
 // }
 
-// export async function getLanguageForRepo(url: string) {
-//   try {
-//     const response = await fetch(url);
-//     if (response.ok) {
-//       const data = await response.json();
-//       return data;
-//     } else {
-//       const error = await response.json();
-//       console.log(error);
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+export async function getLanguageForRepo(url: string) {
+  try {
+    const response = await fetch(url);
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      const error = await response.json();
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}

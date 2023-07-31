@@ -10,9 +10,11 @@ import {
   setParamsPage
 } from '../../store/reducers/searchUsersSlice';
 import { selectorUserAuth } from '../../store/reducers/userAuthSlice';
+import { useTranslation } from 'react-i18next';
 
 const Pagination: FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { search } = useSelector(selectorSearchValue);
   const { user } = useSelector(selectorUserAuth);
   const {
@@ -64,7 +66,7 @@ const Pagination: FC = () => {
         disabled={params.page === 1}
         onClick={() => handleNavigationBack(params.page - 1)}>
         <div>{loaderBackButton && <ImgLoader />}</div>
-        <div>Back</div>
+        <div>{t('btnBack')}</div>
       </button>
       <div className="pagination-rest__numbers">
         {numbersForPagination.map((item) => (
@@ -81,7 +83,7 @@ const Pagination: FC = () => {
         className="pagination-rest__next"
         onClick={() => handleNavigationNext(params.page + 1)}
         disabled={params.page === numberOfPages}>
-        <div>Next</div>
+        <div>{t('btnNext')}</div>
         <div>{loaderNextButton && <ImgLoader />}</div>
       </button>
     </div>

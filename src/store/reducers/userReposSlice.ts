@@ -28,7 +28,16 @@ export const getUserRepos = createAsyncThunk<
 >('getUserRepos', async (user, thunkAPI) => {
   try {
     const url = `https://api.github.com/users/${user}/repos`;
-    const response = await fetch(url);
+    const oAuthToken = thunkAPI.getState().userAuthSlice.user?.oauthAccessToken;
+    const headersList = {
+      Accept: '*/*',
+      Authorization: `Bearer ${oAuthToken}`
+    };
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: oAuthToken ? headersList : {}
+    });
+
     const data = (await response.json()) as RepositoryItem[];
     return transformUserReposData(data);
   } catch (error) {

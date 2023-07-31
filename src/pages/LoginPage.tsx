@@ -4,10 +4,12 @@ import { useAppDispatch } from '../hooks/useAppDispatch';
 import { useSelector } from 'react-redux';
 import { selectorUserAuth, userAuth, userSign } from '../store/reducers/userAuthSlice';
 import { showNoteLogin } from '../utils/notifications';
+import { useTranslation } from 'react-i18next';
 
 const LoginPage: FC = () => {
   const dispatch = useAppDispatch();
   const { isLoading } = useSelector(selectorUserAuth);
+  const { t } = useTranslation();
 
   const handleGithubLogin = () => {
     const getLogin = dispatch(userAuth(userSign.in));
@@ -17,11 +19,11 @@ const LoginPage: FC = () => {
   return (
     <MainContent>
       {isLoading ? (
-        <div>Loading..</div>
+        <div>{t('loading')}</div>
       ) : (
         <>
-          <div>You can log in using your github account:</div>
-          <button onClick={handleGithubLogin}>Login With GutHub</button>
+          <div>{t('loginText')}</div>
+          <button onClick={handleGithubLogin}>{t('login')}</button>
         </>
       )}
     </MainContent>

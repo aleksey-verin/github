@@ -19,14 +19,16 @@ import {
 import { clearSortingValue } from '../../store/reducers/searchSortingValueSlice';
 import { UsersSearchParams } from '../../store/types/usersType';
 import { selectorUserAuth } from '../../store/reducers/userAuthSlice';
+import { useTranslation } from 'react-i18next';
 
 const defaultValue = '';
 
 const FormSearch: FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const { searchDebounce } = useSelector(selectorUserSettingsSlice);
-  const { user, isAuth } = useSelector(selectorUserAuth);
+  const { user } = useSelector(selectorUserAuth);
   const { search } = useSelector(selectorSearchValue);
   const { params, isLoading, isError } = useSelector(selectorSearchUsersSlice);
 
@@ -85,7 +87,7 @@ const FormSearch: FC = () => {
 
   return (
     <form onSubmit={handleSubmitSearch} className="search">
-      <label htmlFor="search">Search for users on github:</label>
+      <label htmlFor="search">{t('searchTitle')}</label>
       <div>
         <input
           value={searchInputValue}
@@ -96,11 +98,11 @@ const FormSearch: FC = () => {
           onChange={handleInputValue}
         />
         <button className="search-button__send">
-          <div>Search users</div>
+          <div>{t('btnSearch')}</div>
           <div>{isLoading && <ImgLoader />}</div>
         </button>
         <button onClick={handleReset} type="reset">
-          Clear search
+          {t('btnClear')}
         </button>
       </div>
     </form>

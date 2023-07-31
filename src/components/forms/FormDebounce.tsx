@@ -6,9 +6,12 @@ import {
   setSearchDebounce
 } from '../../store/reducers/userSettingsSlice';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 const FormDebounce: FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
   const { searchDebounce } = useSelector(selectorUserSettingsSlice);
 
   const [debounceInputDisabled, setDebounceInputDisabled] = useState(true);
@@ -25,7 +28,7 @@ const FormDebounce: FC = () => {
     setDebounceInputDisabled(true);
     if (debounceInputValue === searchDebounce) return;
     dispatch(setSearchDebounce(debounceInputValue));
-    toast.success('Successfully saved!');
+    toast.success(t('Successfully saved'));
   };
 
   useEffect(() => {
@@ -36,7 +39,7 @@ const FormDebounce: FC = () => {
 
   return (
     <form onSubmit={handleSaveDebounce}>
-      <label htmlFor="debounce">The speed of sending a search request (debounce) (ms)</label>
+      <label htmlFor="debounce">{t('settingsDebounce')}</label>
       <div>
         <input
           id="debounce"
@@ -54,10 +57,10 @@ const FormDebounce: FC = () => {
         />
         {debounceInputDisabled ? (
           <button type="button" onClick={handleEditDebounce}>
-            Edit
+            {t('btnEdit')}
           </button>
         ) : (
-          <button type="submit">Save</button>
+          <button type="submit">{t('btnSave')}</button>
         )}
       </div>
     </form>
