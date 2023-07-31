@@ -15,7 +15,7 @@
 
 <p>This web application allows you to search for users on GitHub. Sorting of search results based on multiple parameters is implemented. Additionally, you can customize the number of displayed items per search page, the response time when entering data into the search query, and the interface language. The application also offers the option to authenticate through your GitHub account. The interface theme automatically changes depending on your system settings. Choose the settings according to your preferences and quickly and conveniently find the users you need on GitHub.</p>
 <hr>
-<p>Это веб-приложение позволяет вам осуществлять поиск по пользователям на GitHub. Реализована сортировка результатов поиска по нескольких параметрам. Также вы можете настроить количество отображаемых элементов на странице поиска, время отклика при вводе данных в строку запроса, а также язык интерфейса. Приложение также предоставляет возможность авторизации через ваш аккаунт на GitHub. Тема интерфейса меняется автоматический в зависимости от настроек вашей системы. Подберите настройки по своему усмотрению и быстро и удобно найдите нужных вам пользователей на GitHub.</p>
+<p>Это веб-приложение позволяет вам осуществлять поиск по пользователям на GitHub. Реализована сортировка результатов поиска по нескольких параметрам. Также вы можете настроить количество отображаемых элементов на странице поиска, время отклика при вводе данных в строку запроса, а также язык интерфейса. Приложение также предоставляет возможность авторизации через ваш аккаунт на GitHub. Тема интерфейса меняется автоматически в зависимости от настроек вашей системы. Подберите настройки по своему усмотрению и быстро и удобно найдите нужных вам пользователей на GitHub.</p>
 
 ## Usage
 
