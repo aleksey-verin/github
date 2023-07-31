@@ -65,25 +65,6 @@ export function getViewedResultsRepos(
   return viewedResults;
 }
 
-export function getPaginationForGraph(
-  max_pagination_items: number,
-  globalCountRequest: number,
-  numberOfPages: number
-): Array<number> {
-  const listOfNumbers = [];
-
-  const start = (globalCountRequest - 1) * max_pagination_items + 1;
-  const end =
-    numberOfPages > max_pagination_items * globalCountRequest
-      ? start + max_pagination_items - 1
-      : numberOfPages;
-  for (let i = start; i <= end; i++) {
-    listOfNumbers.push(i);
-  }
-
-  return listOfNumbers;
-}
-
 export function getSearchParamsFormSelect(value: keyof typeof searchUserSortingOptions): {
   sort: UsersSearchParamsSort;
   order: UsersSearchParamsOrder;

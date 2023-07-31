@@ -4,6 +4,7 @@ import { selectorSearchValue } from '../../store/reducers/searchValueSlice';
 import {
   getResultUsers,
   selectorSearchUsersSlice,
+  setParamsPage,
   setParamsSorting
 } from '../../store/reducers/searchUsersSlice';
 import SearchItem from './SearchItem';
@@ -13,6 +14,7 @@ import {
   selectorSearchSortingValue,
   setSortingValue
 } from '../../store/reducers/searchSortingValueSlice';
+import { getSearchParamsFormSelect } from '../../utils/helpers';
 
 const ListSearchResults: FC = () => {
   const dispatch = useAppDispatch();
@@ -23,8 +25,16 @@ const ListSearchResults: FC = () => {
 
   const handleSortingValue = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const sortingValue = e.target.value as keyof typeof searchUserSortingOptions;
+    const sortingParams = getSearchParamsFormSelect(sortingValue);
     dispatch(setSortingValue(sortingValue));
     dispatch(setParamsSorting(sortingValue));
+    dispatch(setParamsPage(1));
+    dispatch(
+      getResultUsers({
+        searchValue: search,
+        params: { per_page: params.per_page, page: 1, ...sortingParams }
+      })
+    );
   };
 
   // useEffect(() => {
@@ -45,8 +55,8 @@ const ListSearchResults: FC = () => {
           {totalCountUsers !== null && (
             <>
               <span>{totalCountUsers}</span>
-              {` users were found for the query `}
-              <span>{totalCountUsers !== null && search}</span>
+              {` users were found by the query `}
+              <span>{`"${totalCountUsers !== null && search}"`}</span>
             </>
           )}
         </div>
@@ -62,13 +72,6 @@ const ListSearchResults: FC = () => {
                 {item.name}
               </option>
             ))}
-            {/* <option value="bestMatch">Best match</option>
-            <option value="reposDesc">Most repositories</option>
-            <option value="reposAsc">Fewest repositories</option>
-            <option value="followersDesc">Most followers</option>
-            <option value="followersAsc">Fewest followers</option>
-            <option value="joinedDesc">Most recently joined</option>
-            <option value="joinedAsc">Least recently joined</option> */}
           </select>
         </div>
       </div>

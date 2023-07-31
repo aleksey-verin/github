@@ -50,9 +50,9 @@ const FormSearch: FC = () => {
     requestRestApi(value, params.per_page);
   }, [debouncedValue]);
 
-  useEffect(() => {
-    dispatch(getResultUsers({ searchValue: search, params }));
-  }, [dispatch, params]);
+  // useEffect(() => {
+  //   dispatch(getResultUsers({ searchValue: search, params }));
+  // }, [dispatch, params]);
 
   const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const userTypedValue = e.target.value;
@@ -81,7 +81,7 @@ const FormSearch: FC = () => {
 
   return (
     <form onSubmit={handleSubmitSearch} className="search">
-      <label htmlFor="search">Search through all repositories on github:</label>
+      <label htmlFor="search">Search for users on github:</label>
       <div>
         <input
           value={searchInputValue}

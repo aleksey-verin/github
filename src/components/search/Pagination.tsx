@@ -28,7 +28,7 @@ const Pagination: FC = () => {
     await dispatch(
       getResultUsers({
         searchValue: search,
-        params: { page: page, per_page: params.per_page }
+        params: { ...params, page: page }
       })
     );
     if (!isError) {
