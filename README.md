@@ -1,4 +1,4 @@
-# App for real estate agents
+# Github Search Users App
 
 ## Summary
 
