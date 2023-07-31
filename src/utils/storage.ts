@@ -1,6 +1,6 @@
 export const storage = {
-  isAuth: 'github-api-app-isAuth',
-  userAuth: 'github-api-app-userAuth',
+  isAuth: 'search-users-app-isAuth',
+  userAuth: 'search-users-app-userAuth',
   searchValue: 'search-users-app-searchValue',
   searchSortingValue: 'search-users-app-searchSortingValue',
   searchUsersResults: 'search-users-app-searchUsersResults',
